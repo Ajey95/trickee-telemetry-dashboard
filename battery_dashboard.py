@@ -110,6 +110,11 @@ def load_vehicle(vehicle_id: str, sample: int = 1) -> pd.DataFrame:
         # It's already sampled by 10x in prep script, but we can sample more here if requested
         if sample > 1:
             df = df.iloc[::sample].reset_index(drop=True)
+        
+        # Prevent catastrophic KeyError in Deep Dive tab
+        if "current" in df.columns and "battery_voltage" in df.columns:
+            df["power"] = df["current"] * df["battery_voltage"]
+            
         return df
     except Exception as e:
         print(f"Failed to load {url}: {e}")
