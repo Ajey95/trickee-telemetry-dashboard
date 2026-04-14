@@ -96,7 +96,7 @@ ALERT_LABELS = ["Cell OV", "Cell UV", "Over Temp", "Under Temp",
 # ─────────────────────────────────────────────────────────────────────────────
 #  DATA LOADER  — Blazing fast pre-processed Parquet from Hugging Face
 # ─────────────────────────────────────────────────────────────────────────────
-@st.cache_data(show_spinner="Loading vehicle data…")
+@st.cache_resource(show_spinner="Loading vehicle data…")
 def load_vehicle(vehicle_id: str, sample: int = 1) -> pd.DataFrame:
     """Load pre-processed CAN Parquet from Hugging Face."""
     
@@ -211,7 +211,7 @@ def color_temp(t):
     if t < 45: return GOLD
     return RED
 
-@st.cache_data(show_spinner="Loading GPS data…")
+@st.cache_resource(show_spinner="Loading GPS data…")
 def load_gps(vehicle_id: str, sample: int = 1) -> pd.DataFrame:
     """Load pre-processed GPS Parquet from Hugging Face."""
     url = f"{HF_BASE_URL}/{vehicle_id}_gps.parquet"
