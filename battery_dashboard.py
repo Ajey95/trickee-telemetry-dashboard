@@ -115,8 +115,9 @@ def load_vehicle(vehicle_id: str, sample: int = 1) -> pd.DataFrame:
         print(f"Failed to load {url}: {e}")
         return pd.DataFrame()
 
-@st.cache_data(show_spinner="Building fleet snapshot…")
 def load_all_fleet(sample: int = 5) -> dict:
+    # No @st.cache_data needed here since load_vehicle is already cached.
+    # Caching this large dict of DataFrames causes Streamlit MemoryErrors.
     fleet = {}
     for v in VEHICLES:
         fleet[v] = load_vehicle(v, sample)
@@ -221,8 +222,8 @@ def load_gps(vehicle_id: str, sample: int = 1) -> pd.DataFrame:
     except:
         return pd.DataFrame()
 
-@st.cache_data(show_spinner="Loading all GPS tracks…")
 def load_all_gps(sample: int = 20) -> pd.DataFrame:
+    # No @st.cache_data needed here either to avoid MemoryError.
     frames = []
     for v in VEHICLES:
         gdf = load_gps(v, sample)
