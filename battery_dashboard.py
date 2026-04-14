@@ -563,8 +563,8 @@ def VehicleDeepDive(vehicle_id):
     # KPIs
     k1, k2, k3, k4, k5 = st.columns(5)
     k1.metric("State of Charge", f"{soc:.1f}%",
-              delta=f"{df.iloc[max(0,idx-1)]['soc']-soc:.1f}%" if idx > 0 else None,
-              delta_color="inverse")
+              delta=f"{soc - df.iloc[max(0,idx-1)]['soc']:.1f}%" if idx > 0 else None,
+              delta_color="normal")
     k2.metric("State of Health", f"{soh:.1f}%")
     k3.metric("Pack Voltage", f"{volt:.2f} V")
     k4.metric("Current", f"{cur:.2f} A",
